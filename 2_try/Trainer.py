@@ -6,12 +6,7 @@ from tqdm import tqdm
 
 from model.PerceptronClassifier import OutData
 
-
-class TaskType(Enum):
-    CLASSIFICATION = 1
-    REGRESSION = 2
-
-
+# разбиение на батчи
 def split_reminder(x, chunk_size, axis=0):
     indices = np.arange(chunk_size, x.shape[axis], chunk_size)
     return np.array_split(x, indices, axis)

@@ -26,7 +26,7 @@ FLATTENED = 800
 FIRST_DENSE_LAYER_SIZE = 150
 SECOND_DENSE_LAYER_SIZE = 10
 
-
+# Обучение
 def train(lr, gamma, batch_size, parameters_file_name):
     (data, target), _ = load_mnist()
     shuffle(data, target)
@@ -56,7 +56,7 @@ def train(lr, gamma, batch_size, parameters_file_name):
     with open(parameters_file_name, 'wb') as parameters_file:
         pickle.dump([params, cost], parameters_file)
 
-
+# Гариентный спуск с моментами
 def nesterov_gradient_descent(batch_data, batch_target, lr, gamma, params, moments):
     cost: float = 0
     batch_size = len(batch_data)

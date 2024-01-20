@@ -34,7 +34,7 @@ def argmax2d(arr):
     idx: int = arr.argmax()
     return idx // arr.shape[1], idx % arr.shape[1]
 
-
+# Кодирование данных в виде вектора
 def one_hot_coding(cls):
     code: np.ndarray = np.zeros(shape=(CLASS_NUMBER, 1))
     code[cls][0] = 1.0
@@ -45,6 +45,7 @@ def cross_entropy(p, q):
     return -(q * np.log(p)).sum()
 
 
+# Загрузка сета
 def load_mnist():
     import os
     from keras.datasets import mnist

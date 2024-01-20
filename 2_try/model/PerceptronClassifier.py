@@ -6,21 +6,22 @@ import numpy as np
 import pickle
 from functools import reduce
 
-
+# Лосс функция
 class SoftMaxCrossEntropy:
     def __call__(self, *args, **kwargs) -> np.ndarray:
         return self.forward(*args, **kwargs)
 
-    def forward(self, y: np.ndarray, ygt: np.ndarray) -> np.ndarray:
+    def forward(self, y, ygt):
         softmax = np.exp(y) / (np.exp(y).sum(axis=1, keepdims=True) + 1e-6)
         return -np.log(softmax[np.arange(y.shape[0]), ygt] + 1e-6).mean()
 
-    def backward(self, y: np.ndarray, ygt: np.ndarray) -> np.ndarray:
+    def backward(self, y, ygt):
         softmax = np.exp(y) / (np.exp(y).sum(axis=1, keepdims=True) + 1e-6)
         softmax[np.arange(y.shape[0]), ygt] -= 1
         return softmax / y.shape[0]
 
 
+# Функция ативации
 class ReLU:
     def __call__(self, *args, **kwargs) -> np.ndarray:
         return self.forward(*args, **kwargs)
@@ -28,7 +29,7 @@ class ReLU:
     def __init__(self):
         self._activation_value = None
 
-    def forward(self, x: np.ndarray) -> np.ndarray:
+    def forward(self, x) -> np.ndarray:
         self._activation_value = np.maximum(0, x)
         return self._activation_value
 
@@ -67,6 +68,7 @@ class PerceptronClassifier:
     def forward(self, x):
         layers = (layer.forward for layer in self._layers)
 
+        # Получение результата
         res = reduce(lambda layer_input, layer_forward: layer_forward(layer_input),
                      layers,
                      x)

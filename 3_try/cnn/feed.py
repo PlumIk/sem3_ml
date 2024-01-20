@@ -2,7 +2,7 @@ import numpy as np
 
 from util.util import Params, Outputs
 
-
+# Свёртка картинок
 def convolution(image: np.ndarray, kernels: np.ndarray, stride: int) -> np.ndarray:
     kernels_count, kernels_channels, kernels_size, _ = kernels.shape
     image_channels, image_size, _ = image.shape
@@ -25,7 +25,7 @@ def convolution(image: np.ndarray, kernels: np.ndarray, stride: int) -> np.ndarr
 
     return feature_maps
 
-
+# Поиск максимального значения в свёрточной матрице
 def max_pool(image: np.ndarray, patch_size: int, stride: int):
     image_channels, image_size, _ = image.shape
     pooled_size: int = (image_size - patch_size) // stride + 1
@@ -51,7 +51,7 @@ def soft_max(z: np.ndarray) -> np.ndarray:
     exp: np.ndarray = np.exp(z)
     return exp / exp.sum()
 
-
+# Получение предсказаний по картинке
 def feed_forward(image: np.ndarray, params: Params) -> Outputs:
     kernels1, kernels2, dense1, dense2 = params
 

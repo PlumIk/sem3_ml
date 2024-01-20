@@ -66,7 +66,7 @@ def calc_roc_curve(cls, positive, negative, confidence):
             tpr[i + 1] = tpr[i] + 1 / positive
     return fpr, tpr, auc
 
-
+# Рисование рок кривой
 def calc_roc_curves(cls_counter, not_cls_counter, cls_count, confidence):
     roc_list = []
     for i in range(cls_count):
@@ -76,20 +76,24 @@ def calc_roc_curves(cls_counter, not_cls_counter, cls_count, confidence):
 
 
 if __name__ == '__main__':
+    # Загрузка модели
     parameters_file_name = "params/data.pkl"
     with open(parameters_file_name, 'rb') as parameters_file:
         params, cost = pickle.load(parameters_file)
+    # Прогон теста
     _, (test_data, test_target) = load_mnist()
     confusion_matrix, confidence_list = make_classify(test_data, test_target, params)
     precision_list, recall_list, f1_list, cls_counter, not_cls_counter = calc_metrics(confusion_matrix)
     roc_list = calc_roc_curves(cls_counter, not_cls_counter, CLASS_NUMBER, confidence_list)
     class_names = [str(i) for i in range(CLASS_NUMBER)]
+    # Метрики
     cost_fig = draw_cost(cost)
     conf_mat_fig = draw_conf_matrix(confusion_matrix)
     roc_fig = draw_roc_curves(roc_list, class_names)
     precision_fig = draw_metric_bar(class_names, precision_list, "precision")
     recall_fig = draw_metric_bar(class_names, recall_list, "recall")
     f1_fig = draw_metric_bar(class_names, f1_list, "f1_score")
+    # в странички
     save_param_to_html(cost_fig, parameters_file_name, "cost.html")
     save_param_to_html(conf_mat_fig, parameters_file_name, "conf_mat.html")
     save_param_to_html(roc_fig, parameters_file_name, "roc_curve.html")

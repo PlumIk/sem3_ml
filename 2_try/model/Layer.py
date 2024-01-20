@@ -1,12 +1,12 @@
 import numpy as np
 
-
+# Инит весов
 def _init_weights_data(input_size, output_size):
     weights = np.random.randn(input_size, output_size) / 10.
     weights_grads = np.empty_like(weights)
     return weights, weights_grads
 
-
+# Смещение
 def _init_bias_data(bias, layer_size):
     bias_values = None
     bias_grads = None
@@ -28,6 +28,7 @@ class Layer:
     def _is_bias(self):
         return self._biases is not None
 
+    # Результат слоя
     def forward(self, x):
         self._layer_input = x
         linear_value = self._layer_input @ self._weights
@@ -35,6 +36,7 @@ class Layer:
             linear_value += self._biases
         return linear_value
 
+    # Градиенты лосс по весам
     def backward(self, x):
         output_grad = x
         if self._is_bias():
@@ -42,6 +44,7 @@ class Layer:
         self._weights_grads = self._layer_input.T @ output_grad
         return output_grad @ self._weights.T
 
+    # обновить
     def step(self, lr):
         self._weights -= self._weights_grads * lr
         if self._biases is not None:

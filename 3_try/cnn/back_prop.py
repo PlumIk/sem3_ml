@@ -4,7 +4,7 @@ from util.util import Params, Gradients, Outputs
 from util.util import argmax2d
 
 
-
+# Бэкпроб для слоя свёртки
 def conv_back_prop(d_conv_prev: np.ndarray, image: np.ndarray, kernels: np.ndarray, stride: int) -> tuple[
     np.ndarray, np.ndarray]:
     kernels_count, kernels_channels, kernel_size, _ = kernels.shape
@@ -29,7 +29,7 @@ def conv_back_prop(d_conv_prev: np.ndarray, image: np.ndarray, kernels: np.ndarr
 
     return gradients, d_kernels
 
-
+# Градиенты для предыдущнго слоя
 def max_pool_grad(d_pooled: np.ndarray, image: np.ndarray, patch_size: int, stride: int) -> np.ndarray:
     channels_count, image_size, _ = image.shape
 
@@ -51,7 +51,7 @@ def max_pool_grad(d_pooled: np.ndarray, image: np.ndarray, patch_size: int, stri
 
     return gradients
 
-
+# Проход через все слои
 def back_prop(image: np.ndarray, target: np.ndarray, outputs: Outputs, params: Params) -> Gradients:
     kernels1, kernels2, dense1, dense2 = params
     conv1_out, conv2_out, pooled, flattened, dense1_out, result = outputs
